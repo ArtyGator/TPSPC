@@ -2,13 +2,13 @@
 
 Logiciel de répartition et d'évaluation des élèves en TP de physique-chimie
 
-# Description
+## Description
 
 Ce logiciel a été créé pour deux enseignants de physique-chimie afin de faciliter l'évaluation des compétences et l'organisation lors des TP. Il remplit essentiellement deux fonctions :
 - La répartition aléatoire des élèves en binômes ou trinômes (en fonction du nombre de paillasses disponibles), créant un plan qui peut être projeté au début du cours
 - La notation des élèves en fonction de compétences définies en amont, qui peut être exporté sous forme de tableur
 
-# Installation
+## Installation
 
 Bien que je n'ai pas prévu ce programme pour le grand public, il est tout à fait possible d'y apporter des modifications de le faire tourner si vous êtes vous-même enseignant ou tout simplement curieux.
 
@@ -26,7 +26,7 @@ Il est une bonne pratique de mettre dans ce tableur _toutes_ les compétences qu
 
 Vous pourriez vouloir garder la même répartition de paillasses d'une scéance à l'autre. C'est pourquoi le programme se souviendra de la dernière répartition et vous proposera de la rétablir. En revanche, l'évaluation des compétences ne sera pas conservée. Vos modifications seront perdues si vous n'enregistrez pas à la fermeture. Si vous souhaitez évaluer des compétences sur plusieurs scéances, enregistrez simplement le fichier à la fin de chaque scéance. Comme l'exportation conserve les compétences précédentes, rien ne sera perdu.
 
-# Limites connues
+## Limites connues
 
 Le programme n'affiche pas encore parfaitement les binômes de plusieurs élèves s'ils ont des noms très longs. Si vous remarquez ce problème, il peut être judicieux d'abréger ceux-ci dans le tableur pour des raisons de lisibilité.
 
