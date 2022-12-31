@@ -14,11 +14,15 @@ Bien que je n'ai pas prévu ce programme pour le grand public, il est tout à fa
 
 Vous aurez besoin de Python 3.5+ avec Tcl/Tk et d'un environnement venv ou anaconda fonctionnel.
 
-ensuite, il vous suffira de lancer
+ensuite, exécutez
 
     $ pip install -r requirements.txt
 
 pour installer les composants nécessaires.
+
+Pour exécuter le programme, lancez simplement
+
+    $ python main.py
 
 Le programme lit la liste d'élèves et de compétences depuis un tableur excel dans le style de ceux que l'on trouve dans `classes` (qui peut ne pas être vierge). Au moment de l'exportation, l'évaluation des compétences effectuées sera simplement ajoutée à la fin de chaque cellule. Il n'est donc pas nécessaire de créer une feuille d'évaluation par scéance.
 
