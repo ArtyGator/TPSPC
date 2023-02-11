@@ -1,8 +1,9 @@
 import choice
 from logic import *
 from view import TPSPCApp
-import os, appdirs
+import os, sys, appdirs
 import json
+import datetime as dt
 
 """
 Attribution automatique des places en TP
@@ -13,13 +14,14 @@ les compétences évaluées peuvent difficilement changer d'une itération à l'
 chaque colonne de ce tableur correspondra à une classe, et la première ligne contiendra le nom des classes
 """
 
-# TODO: implementer la sélection de certaines compétences qui apparaîtront dans l'évaluateur
 APP_VENDOR = "Dumont"
 APP_NAME = "TPSPC"
 NB_PAILLASSES = 9
-FONT_SIZE = 17
+FONT_SIZE = 24
+DT = False
 
-if __name__ == '__main__':  # threaded failsafe
+if __name__ == '__main__':
+    # va chercher les fichiers locaux de configuration, en les créant si nécessaire
     config_dir = appdirs.user_config_dir(APP_NAME, APP_VENDOR, roaming=True)
     if not os.path.isdir(config_dir):
         os.makedirs(config_dir)
@@ -33,15 +35,17 @@ if __name__ == '__main__':  # threaded failsafe
             choice_path=None,
             last_org={},
             last_org_date={},
-            last_tab_comp={}
+            last_tab_comp={},
+            geometry=''
         )
 
     def save_callback(instance: TPSPCApp, event=None):
-        saver_file = choice.choice_file_save(conf['choice_path'], instance.winfo_toplevel())
+        saver_file = choice.choice_file_save(conf['choice_path'], instance.winfo_toplevel())  # demande où enregistrer
         if saver_file != '':
             try:
                 save_tab_comp(instance.sceance_competences, saver_file)
-            except:
+            except Exception as e:
+                print(e)
                 return 2
             else:
                 return 0
@@ -49,17 +53,20 @@ if __name__ == '__main__':  # threaded failsafe
             return -1
 
 
-    ins = TPSPCApp(9, 2, 15)
+    ins = TPSPCApp(9, 2, FONT_SIZE)
 
     fichier_classe = choice.choice_file_open(conf['choice_path'], ins.winfo_toplevel())
-    # this is a cpu-blocking function that will crash your computer if you try to use threading on it
+    if fichier_classe == '':
+        sys.exit(0)
+    # cette fonction est cpu-bloquante, ne pas essayer de la lancer dans un thread
     liste_comp, liste_eleves = parse_tab_comp(fichier_classe)
     pairs = []
     mpreset = None
-    c = False  # if the statement below doesn't change the state of the choice it will default to false
+    keep_org = False
     if fichier_classe in conf['last_org']:
-        c = choice.choice_load_previous(conf['last_org_date'][fichier_classe], ins.winfo_toplevel())
-    if c:
+        # demande s'il faut remettre le dernier plan de classe
+        keep_org = choice.choice_load_previous(conf['last_org_date'][fichier_classe], ins.winfo_toplevel())
+    if keep_org:
         pairs = conf['last_org'][fichier_classe]
         mpreset = map(conf['last_tab_comp'][fichier_classe].__contains__, liste_comp)
     else:
@@ -68,11 +75,18 @@ if __name__ == '__main__':  # threaded failsafe
     conf['last_org_date'][fichier_classe] = choice.dt.datetime.now().isoformat()
 
     ins.load_eleves(pairs)
-    # ins.load_competences(liste_comp, liste_eleves, save_callback)
+
     ins.choose_competences(liste_comp, liste_eleves, save_callback, preset=mpreset)
+
+    today = dt.date.today()
+    if today.day == 1 and today.month == 4 and today.year == 2022:
+        now = dt.datetime.now()
+        if now.hour == 14 and (45 <= now.minute <= 55) and not DT:
+            ins.labo.after(1000, ins.labo.do_a_little_trolling)  # HEHEHEHE
 
     ins.mainloop()
 
+    # une fois sorti de l'app, on sauvegarde la config
     spl = os.path.split(fichier_classe)
     conf['choice_path'] = spl[len(spl) - 2]
     conf['last_org'][fichier_classe] = pairs
