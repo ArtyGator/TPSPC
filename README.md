@@ -10,7 +10,7 @@ Ce logiciel a été créé pour deux enseignants de physique-chimie afin de faci
 
 ## Installation
 
-Bien que je n'ai pas prévu ce programme pour le grand public, il est tout à fait possible d'y apporter des modifications de le faire tourner si vous êtes vous-même enseignant ou tout simplement curieux.
+Bien que je n'ai pas prévu ce programme pour le grand public, il est tout à fait possible d'y apporter des modifications pour le faire tourner si vous êtes vous-même enseignant ou tout simplement curieux.
 
 Vous aurez besoin de Python 3.5+ avec Tcl/Tk et d'un environnement venv ou anaconda fonctionnel.
 
